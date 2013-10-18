@@ -29,6 +29,7 @@ class UtilsTest extends PHPUnit_Framework_TestCase
         $this->assertSame('fo...', truncate('foo', 2));
         $this->assertSame('fo', truncate('foo', 2, ''));
         $this->assertSame('', truncate('', 12));
+        $this->assertSame('bé', truncate('bébé', 2, ''));
     }
 
     public function testSlugify()

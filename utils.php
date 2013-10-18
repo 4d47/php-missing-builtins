@@ -25,14 +25,15 @@ function pr($var, $sapi = PHP_SAPI) {
  * @param string $string
  * @param integer $limit
  * @param string $ending
+ * @param string $encoding
  * @return string
  */
-function truncate($string, $limit, $ending = '...') {
+function truncate($string, $limit, $ending = '...', $encoding = 'UTF-8') {
     assert('is_int($limit) and $limit > 0');
-    if (strlen($string) <= $limit) {
+    if (mb_strlen($string, $encoding) <= $limit) {
         return $string;
     }
-    return substr($string, 0, $limit) . $ending;
+    return mb_substr($string, 0, $limit, $encoding) . $ending;
 }
  
 /**
