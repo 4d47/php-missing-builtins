@@ -13,12 +13,19 @@ function array_get($array, $key, $default = null) {
 }
 
 /**
+ * Is running from console.
+ */
+function is_cli() {
+    return php_sapi_name() === 'cli';
+}
+
+/**
  * @param mixed $var
  * @return void
  */
-function pr($var, $sapi = PHP_SAPI) {
+function pr($var) {
     $var = print_r($var, true);
-    echo ($sapi === 'cli') ? $var : '<pre>' . htmlspecialchars($var) . '</pre>';
+    echo is_cli() ? $var : '<pre>' . htmlspecialchars($var) . '</pre>';
 }
  
 /**
