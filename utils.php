@@ -13,10 +13,17 @@ function array_get($array, $key, $default = null) {
 }
 
 /**
- * Is running from console.
+ * htmlspecialchars() shortchut
  */
-function is_cli() {
-    return php_sapi_name() === 'cli';
+function h($string, $flags = null, $encoding = 'UTF-8', $double_encode = true) {
+    return htmlspecialchars($string, $flags ?: ENT_COMPAT | ENT_HTML401, $encoding, $double_encode);
+}
+
+/**
+ * urlencode() shortcut
+ */
+function u($string) {
+    return urlencode($string);
 }
 
 /**
@@ -28,6 +35,13 @@ function pr($var) {
     echo is_cli() ? $var : '<pre>' . htmlspecialchars($var) . '</pre>';
 }
  
+/**
+ * Is running from console.
+ */
+function is_cli() {
+    return php_sapi_name() === 'cli';
+}
+
 /**
  * @param string $string
  * @param integer $limit
@@ -55,5 +69,51 @@ function slugify($string, $charset = null) {
     $string = preg_replace('/[^a-z0-9\s\-_]/i', '', $string);
     $string = preg_replace('/[\s_]+/', '-', $string);
     return strtolower($string);
+}
+
+/**
+ * @param string $uri optional uri
+ * @return string the absolute url
+ */
+function url($uri = null) {
+    $ssl = array_get($_SERVER, 'HTTPS') === 'on';
+    $protocol = 'http' . ($ssl ? 's' : '');
+    $port = $_SERVER['SERVER_PORT'];
+    $port = ((!$ssl && $port == '80') || ($ssl && $port == '443')) ? '' : ":$port";
+    $host = array_get($_SERVER, 'HTTP_X_FORWARDED_HOST', array_get($_SERVER, 'HTTP_HOST', $_SERVER['SERVER_NAME']));
+    $uri = $uri ?: $_SERVER['REQUEST_URI'];
+    return "$protocol://$host$port$uri";
+}
+
+/**
+ * A simple cache abstraction function.
+ * Will use APC if available and fallback to files.
+ *
+ * @param string $key
+ * @param mixed $var
+ * @param int $ttl seconds to live
+ * @return mixed
+ */
+function cache($k, $v = null, $ttl = 0)
+{
+    if (extension_loaded('APC')) {
+        return (func_num_args() === 1) ? apc_fetch($k) : apc_store($k, $v, $ttl);
+    }
+
+    # file base caching
+    $fname = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cache_' . md5($k); 
+    if (func_num_args() == 1) {
+        $data = file_get_contents($fname);
+        $data = @unserialize($data);
+        if ($data === false or $_SERVER['REQUEST_TIME'] > $data[0]) {
+            unlink($fname);
+            return false;
+        }
+        return $data[1]; 
+    } else {
+        if ($ttl == 0) $ttl = 3600;
+        $v = serialize( array( $_SERVER['REQUEST_TIME'] + $ttl, $v ) ); 
+        return file_put_contents($fname, $v, LOCK_EX) !== false;
+    }
 }
 
