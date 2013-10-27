@@ -1,32 +1,36 @@
 <?php
 
 /**
- * https://bugs.php.net/bug.php?id=40792
- * https://wiki.php.net/rfc/ifsetor
+ * Get an $array $key, else $default.
  *
+ * @see https://bugs.php.net/bug.php?id=40792
+ * @see https://wiki.php.net/rfc/ifsetor
  * @param array $array
  * @param scalar $key
  * @param mixed $default
+ * @return mixed
  */
 function array_get($array, $key, $default = null) {
     return isset($array[$key]) ? $array[$key] : $default;
 }
 
 /**
- * htmlspecialchars() shortchut
+ * htmlspecialchars() shortchut.
  */
 function h($string, $flags = null, $encoding = 'UTF-8', $double_encode = true) {
     return htmlspecialchars($string, $flags ?: ENT_COMPAT | ENT_HTML401, $encoding, $double_encode);
 }
 
 /**
- * urlencode() shortcut
+ * urlencode() shortcut.
  */
 function u($string) {
     return urlencode($string);
 }
 
 /**
+ * print_r() shortcut.
+ *
  * @param mixed $var
  * @return void
  */
@@ -43,6 +47,9 @@ function is_cli() {
 }
 
 /**
+ * Truncate $string at a specific $limit,
+ * adding $ending if was truncated.
+ *
  * @param string $string
  * @param integer $limit
  * @param string $ending
@@ -58,22 +65,24 @@ function truncate($string, $limit, $ending = '...', $encoding = 'UTF-8') {
 }
  
 /**
+ * Create a URL friendly version of $string.
+ *
  * @param string $stirng
- * @param string $charset
+ * @param string $encoding
  * @return string
  */
-function slugify($string, $charset = null) {
-    if (!isset($charset))
-        $charset = iconv_get_encoding('internal_encoding');
-    $string = trim(iconv($charset, 'ASCII//TRANSLIT', $string));
+function slugify($string, $encoding = 'UTF-8') {
+    $string = trim(iconv($encoding, 'ASCII//TRANSLIT', $string));
     $string = preg_replace('/[^a-z0-9\s\-_]/i', '', $string);
     $string = preg_replace('/[\s_]+/', '-', $string);
     return strtolower($string);
 }
 
 /**
+ * Create an absolute URL based on current $_SERVER environement.
+ *
  * @param string $uri optional uri
- * @return string the absolute url
+ * @return string
  */
 function url($uri = null) {
     $ssl = array_get($_SERVER, 'HTTPS') === 'on';
