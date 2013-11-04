@@ -126,3 +126,19 @@ function cache($k, $v = null, $ttl = 0)
     }
 }
 
+/**
+ * Record $name $message to the session and get it back,
+ * only once. Requires a session_start()ed.
+ *
+ * @param $name
+ * @param $message
+ */
+function flash($name, $message = null) {
+    if (is_null($message)) {
+        $message = array_get($_SESSION, $name, '');
+        unset($_SESSION[$name]);
+        return $message;
+    }
+    return $_SESSION[$name] = $message;
+}
+

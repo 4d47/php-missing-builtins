@@ -50,4 +50,12 @@ class UtilsTest extends PHPUnit_Framework_TestCase
         $this->assertSame('is-c-really-a-language-', slugify('Is C# really a language ?'));
         $this->assertSame('underscore-is-not-the-answer', slugify('Underscore_is_not_the_answer'));
     }
+
+    public function testFlash()
+    {
+        $this->assertSame('', flash('notice'));
+        $this->assertSame('a', flash('notice', 'a'));
+        $this->assertSame('a', flash('notice'));
+        $this->assertSame('', flash('notice'));
+    }
 }
