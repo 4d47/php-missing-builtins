@@ -133,7 +133,7 @@ function cache($k, $v = null, $ttl = 0)
  * @param $name
  * @param $message
  */
-function flash($name, $message = null) {
+function session_flash($name, $message = null) {
     if (is_null($message)) {
         $message = array_get($_SESSION, $name, '');
         unset($_SESSION[$name]);
