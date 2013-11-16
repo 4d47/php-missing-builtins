@@ -95,38 +95,6 @@ function url($uri = null) {
 }
 
 /**
- * A simple cache abstraction function.
- * Will use APC if available and fallback to files.
- *
- * @param string $key
- * @param mixed $var
- * @param int $ttl seconds to live
- * @return mixed
- */
-function cache($k, $v = null, $ttl = 0)
-{
-    if (extension_loaded('APC')) {
-        return (func_num_args() === 1) ? apc_fetch($k) : apc_store($k, $v, $ttl);
-    }
-
-    # file base caching
-    $fname = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'cache_' . md5($k); 
-    if (func_num_args() == 1) {
-        $data = file_get_contents($fname);
-        $data = @unserialize($data);
-        if ($data === false or $_SERVER['REQUEST_TIME'] > $data[0]) {
-            unlink($fname);
-            return false;
-        }
-        return $data[1]; 
-    } else {
-        if ($ttl == 0) $ttl = 3600;
-        $v = serialize( array( $_SERVER['REQUEST_TIME'] + $ttl, $v ) ); 
-        return file_put_contents($fname, $v, LOCK_EX) !== false;
-    }
-}
-
-/**
  * Record $name $message to the session and get it back,
  * only once. Requires a session_start()ed.
  *
