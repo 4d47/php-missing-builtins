@@ -15,21 +15,21 @@ function array_get($array, $key, $default = null) {
 }
 
 /**
- * htmlspecialchars() shortchut.
+ * <b>h</b>tmlspecialchars() shortchut.
  */
 function h($string, $flags = null, $encoding = 'UTF-8', $double_encode = true) {
     return htmlspecialchars($string, $flags ?: ENT_COMPAT | ENT_HTML401, $encoding, $double_encode);
 }
 
 /**
- * urlencode() shortcut.
+ * <b>u</b>rlencode() shortcut.
  */
 function u($string) {
     return urlencode($string);
 }
 
 /**
- * print_r() shortcut.
+ * <b>p</b>rint_<b>r</b>() shortcut.
  *
  * @param mixed $var
  * @return void
