@@ -11,7 +11,7 @@
  * @return mixed
  */
 function array_get(array $array, $key, $default = null) {
-    return array_key_exists($array[$key]) ? $array[$key] : $default;
+    return array_key_exists($key, $array) ? $array[$key] : $default;
 }
 
 /**
