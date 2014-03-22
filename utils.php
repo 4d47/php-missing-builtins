@@ -5,6 +5,7 @@
  *
  * @see https://bugs.php.net/bug.php?id=40792
  * @see https://wiki.php.net/rfc/ifsetor
+ * @see https://nikic.github.io/2014/01/10/The-case-against-the-ifsetor-function.html
  * @param array $array
  * @param scalar $key
  * @param mixed $default
