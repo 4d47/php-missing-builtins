@@ -90,7 +90,7 @@ function url($uri = null) {
     $protocol = 'http' . ($ssl ? 's' : '');
     $port = $_SERVER['SERVER_PORT'];
     $port = ((!$ssl && $port == '80') || ($ssl && $port == '443')) ? '' : ":$port";
-    $host = array_get($_SERVER, 'HTTP_X_FORWARDED_HOST', array_get($_SERVER, 'HTTP_HOST', $_SERVER['SERVER_NAME']));
+    $host = array_get($_SERVER, 'HTTP_HOST', $_SERVER['SERVER_NAME']);
     $uri = $uri ?: $_SERVER['REQUEST_URI'];
     return "$protocol://$host$port$uri";
 }
