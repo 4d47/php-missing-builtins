@@ -12,28 +12,6 @@ class UtilsTest extends PHPUnit_Framework_TestCase
         $this->assertSame(3, array_get($assoc, 'c'));
     }
 
-    public function testIsCli()
-    {
-        $this->assertTrue(is_cli());
-    }
-
-    public function testPrFromCli()
-    {
-        $this->expectOutputString('cats <and> dogs');
-        pr('cats <and> dogs');
-    }
-
-    public function testPrFromNonCli()
-    {
-        if (!extension_loaded('runkit')) {
-            $this->markTestSkipped('runkit extension unavailable');
-            return;
-        }
-        runkit_function_redefine('is_cli', '', 'return false;');
-        $this->expectOutputString('<pre>cats &lt;and&gt; dogs</pre>');
-        pr('cats <and> dogs');
-    }
-
     public function testTruncate()
     {
         $this->assertSame('fo...', truncate('foo', 2));

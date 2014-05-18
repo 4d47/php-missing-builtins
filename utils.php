@@ -37,16 +37,9 @@ function u($string) {
  */
 function pr($var) {
     $var = print_r($var, true);
-    echo is_cli() ? $var : '<pre>' . htmlspecialchars($var) . '</pre>';
+    echo (php_sapi_name() === 'cli') ? $var : '<pre>' . htmlspecialchars($var) . '</pre>';
 }
  
-/**
- * Is running from console.
- */
-function is_cli() {
-    return php_sapi_name() === 'cli';
-}
-
 /**
  * Truncate $string at a specific $limit,
  * adding $ending if was truncated.
