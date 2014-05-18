@@ -23,10 +23,10 @@ function h($string, $flags = null, $encoding = 'UTF-8', $double_encode = true) {
 }
 
 /**
- * <b>u</b>rlencode() shortcut.
+ * raw<b>u</b>rlencode() shortcut.
  */
 function u($string) {
-    return urlencode($string);
+    return rawurlencode($string);
 }
 
 /**
