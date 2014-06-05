@@ -31,9 +31,26 @@ class UtilsTest extends PHPUnit_Framework_TestCase
 
     public function testSessionFlash()
     {
+        $_SESSION = array();
         $this->assertSame('', session_flash('notice'));
         $this->assertSame('a', session_flash('notice', 'a'));
         $this->assertSame('a', session_flash('notice'));
         $this->assertSame('', session_flash('notice'));
+    }
+
+    public function testUrl()
+    {
+        $_SERVER = array(
+            'HTTPS' => 'on',
+            'SERVER_PORT' => 443,
+            'HTTP_HOST' => 'example.com',
+            'SERVER_NAME' => 'example.com',
+            'REQUEST_URI' => '/a/b',
+        );
+        $this->assertSame('https://example.com/a/b', url());
+        $this->assertSame('https://example.com/', url('/'));
+        $this->assertSame('https://example.com/?q=yes', url('/', array('q' => 'yes')));
+        $this->assertSame('https://example.com/?q=yes&h=12', url('/', array('q' => 'yes', 'h' => '12')));
+        // $this->assertSame('https://example.com/a', url('..'));
     }
 }

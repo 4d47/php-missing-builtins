@@ -76,15 +76,19 @@ function slugify($string, $encoding = 'UTF-8') {
  * Create an absolute URL based on current $_SERVER environement.
  *
  * @param string $uri optional uri
+ * @param mixed $query_data optional query string data 
  * @return string
  */
-function url($uri = null) {
+function url($uri = null, $params = null) {
     $ssl = array_get($_SERVER, 'HTTPS') === 'on';
     $protocol = 'http' . ($ssl ? 's' : '');
     $port = $_SERVER['SERVER_PORT'];
     $port = ((!$ssl && $port == '80') || ($ssl && $port == '443')) ? '' : ":$port";
     $host = array_get($_SERVER, 'HTTP_HOST', $_SERVER['SERVER_NAME']);
     $uri = $uri ?: $_SERVER['REQUEST_URI'];
+    if ($params) {
+        $uri .= '?' . http_build_query($params);
+    }
     return "$protocol://$host$port$uri";
 }
 
