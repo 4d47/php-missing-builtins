@@ -1,10 +1,9 @@
 
-# utils
+# The PHP Missing Built-ins
 
-A small bag of random PHP functions I dare to wish was builtin.
+A small bag of random PHP functions I dare to wish was built-in.
 
 Test with:
 
-    $ composer install
-    $ ./vendor/bin/phpunit UtilsTest.php
+    $ composer test
 

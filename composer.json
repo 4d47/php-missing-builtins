@@ -1,11 +1,14 @@
 {
-    "name": "4d47/utils",
+    "name": "4d47/missing-builtins",
     "description": "A random bag of PHP functions I dare to wish was builtin.",
     "license": "MIT",
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
-        "files": ["utils.php"]
+        "files": ["missing-builtins.php"]
+    },
+    "scripts": {
+        "test": "phpunit Test.php"
     }
 }
